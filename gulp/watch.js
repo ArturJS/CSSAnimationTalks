@@ -1,14 +1,19 @@
 var gulp = require('gulp'),
-    watch = require('gulp-watch'),
-    _ = require('lodash'),
+    livereload = require('gulp-livereload'),
     paths = gulp.paths;
 
 gulp.task('watch', function () {
-    watch(paths.styles.src, _.debounce(function () {
-        gulp.start('styles');
-    }, 2000));
+    livereload.listen({ start: true });
 
-    watch(paths.templates.src, _.debounce(function () {
-        gulp.start('templateCache');
-    }, 2000));
+    gulp.watch([
+        paths.styles.src
+    ], ['styles']).on('change', changed);
+
+    gulp.watch([
+        paths.templates.src
+    ], ['templateCache']).on('change', changed);
+
+    function changed() {
+        livereload.changed(paths.rootDir + '\\Index.html');
+    }
 });

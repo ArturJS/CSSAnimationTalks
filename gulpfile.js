@@ -1,5 +1,8 @@
 var gulp = require('gulp'),
-    runSequence = require('run-sequence');
+    runSequence = require('run-sequence'),
+    fork = require('child_process').fork,
+    open = require('gulp-open'),
+    serverHelper;
 
 gulp.paths = {
     templates: {
@@ -9,12 +12,27 @@ gulp.paths = {
     styles: {
         src: './Styles/scss/*.scss',
         dest: './Styles/css/'
-    }
+    },
+    rootDir: __dirname
 };
 
 require('require-dir')('./gulp');
 
-gulp.task('serve', function () {
+gulp.task('serve', function (msg) {
+    serverHelper = fork('static-server.js');
+
+    serverHelper.on('message', function (msg) {
+        if (msg !== 'done') {
+            return;
+        }
+
+        gulp.src('./Index.html')
+            .pipe(open({
+                uri: 'http://localhost:1080',
+                app: 'chrome'
+            }));
+    });
+
     runSequence(['templateCache', 'styles', 'watch']);
 });
 

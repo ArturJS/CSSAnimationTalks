@@ -4,18 +4,18 @@ var gulp = require('gulp'),
     runSequence = require('run-sequence'),
     paths = gulp.paths;
 
-gulp.task('templateCache', function () {
-    runSequence(['cleanTemplates', 'buildTemplates']);
+gulp.task('templateCache', function (done) {
+    runSequence('cleanTemplates', 'buildTemplates', done);
 });
 
 gulp.task('cleanTemplates', function () {
-    del([paths.templates.dest + '/templates.js']);
+    return del([paths.templates.dest + '/templates.js']);
 });
 
 gulp.task('buildTemplates', function () {
-    gulp.src(paths.templates.src)
-        .pipe(templateCache({
-            standalone: true
-        }))
-        .pipe(gulp.dest(paths.templates.dest));
+    return gulp.src(paths.templates.src)
+            .pipe(templateCache({
+                standalone: true
+            }))
+            .pipe(gulp.dest(paths.templates.dest));
 });
