@@ -1,8 +1,8 @@
-var gulp = require('gulp'),
-    del = require('del'),
-    templateCache = require('gulp-angular-templatecache'),
-    runSequence = require('run-sequence'),
-    paths = gulp.paths;
+var gulp = require('gulp');
+var del = require('del');
+var templateCache = require('gulp-angular-templatecache');
+var runSequence = require('run-sequence');
+var paths = gulp.paths;
 
 gulp.task('templateCache', function (done) {
     runSequence('cleanTemplates', 'buildTemplates', done);

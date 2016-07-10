@@ -1,11 +1,11 @@
-var gulp = require('gulp'),
-    del = require('del'),
-    runSequence = require('run-sequence'),
-    autoprefixer = require('gulp-autoprefixer'),
-    sass = require('gulp-sass'),
-    cssmin = require('gulp-minify-css'),
-    concat = require('gulp-concat'),
-    paths = gulp.paths;
+var gulp = require('gulp');
+var del = require('del');
+var runSequence = require('run-sequence');
+var autoprefixer = require('gulp-autoprefixer');
+var sass = require('gulp-sass');
+var cssmin = require('gulp-minify-css');
+var concat = require('gulp-concat');
+var paths = gulp.paths;
 
 gulp.task('styles', function (done) {
     runSequence('cleanStyles', 'buildStyles', done);
