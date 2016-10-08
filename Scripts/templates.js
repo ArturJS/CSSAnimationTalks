@@ -1,1 +1,2 @@
-angular.module("templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("Home.html","<h1>Home</h1>");}]);
+angular.module("templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("Home.html","<h1>Home</h1>");
+$templateCache.put("Page1.html","<h1>Page1</h1>\r\n<span ng-repeat=\"item in ::(page1.items | ngRepeatFinish) track by $index\">\r\n    {{::item}}, &nbsp;\r\n</span>");}]);

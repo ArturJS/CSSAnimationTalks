@@ -1,0 +1,139 @@
+@import "../../bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-size: 100%;
+}
+
+.pages-container {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  white-space: nowrap;
+  position: relative;
+}
+
+.h100 {
+  height: 100%;
+}
+
+$time: 0.5s;
+$anim-func: ease-out;
+
+@keyframes centerToLeft {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes leftToCenter {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes centerToRight {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes rightToCenter {
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+[ui-view] {
+  height: 100%;
+  width: 100%;
+  background: #fff;
+  position: absolute;
+  //z-index: 1000;
+  /*top: 50%;
+  transform: translateX(0) translateY(-50%) scale(1);*/
+  transition: all $anim-func $time;
+  white-space: normal;
+
+  &.small-to-medium {
+    animation: smallToMedium $time $anim-func;
+    animation-fill-mode: both;
+    width: 100%;
+    height: 100%;
+  }
+
+  &.medium-to-small {
+    animation: mediumToSmall $time $anim-func;
+    animation-fill-mode: both;
+    width: 100%;
+    height: 100%;
+  }
+
+  &.large-to-medium {
+    animation: largeToMedium $time $anim-func;
+    animation-fill-mode: both;
+    width: 100%;
+    height: 100%;
+  }
+
+  &.medium-to-large {
+    animation: mediumToLarge $time $anim-func;
+    animation-fill-mode: both;
+    width: 100%;
+    height: 100%;
+  }
+
+  //==========================
+
+  &.center-to-left {
+    animation: centerToLeft $time $anim-func;
+    animation-fill-mode: both;
+    width: 100%;
+    height: 100%;
+  }
+
+  &.left-to-center {
+    animation: leftToCenter $time $anim-func;
+    animation-fill-mode: both;
+    width: 100%;
+    height: 100%;
+  }
+
+  &.center-to-right {
+    animation: centerToRight $time $anim-func;
+    animation-fill-mode: both;
+    width: 100%;
+    height: 100%;
+  }
+
+  &.right-to-center {
+    animation: rightToCenter $time $anim-func;
+    animation-fill-mode: both;
+    width: 100%;
+    height: 100%;
+  }
+}
