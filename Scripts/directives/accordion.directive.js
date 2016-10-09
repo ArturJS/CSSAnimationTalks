@@ -4,26 +4,33 @@
 App.directive('accordion', ['PAGES_ORDER', function (PAGES_ORDER) {
     return {
         link: function (scope, elem, attrs) {
-            var isAnimationInProgress = false;
+            var isAnimationInProgress = false,
+                onAnimStart,
+                onAnimEnd;
 
-            /*scope.$on('$stateChangeStart', function(event) {
+            scope.$on('$stateChangeStart', function(event) {
                 isAnimationInProgress && event.preventDefault();
-            });*/
+            });
 
             scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
                 var pages = elem.children(),
-                    fromPage = angular.element(pages[1]),
-                    toPage = angular.element(pages[0]),
+                    fromPage = pages.eq(1),
+                    toPage = pages.eq(0),
                     directionClasses = directionOfMoving(fromState.name, toState.name);
 
-                isAnimationInProgress = true;
-                fromPage.addClass(directionClasses[0]);
-                toPage.addClass(directionClasses[1]);
+                onAnimStart = scope.$on('animStart', function () {
+                    isAnimationInProgress = true;
+                    fromPage.addClass(directionClasses[0]);
+                    toPage.addClass(directionClasses[1]);
+                    onAnimStart();
+                });
 
-                scope.$on('animEnd', function () {
+                onAnimEnd = scope.$on('animEnd', function () {
                     clearAnim(fromPage);
                     clearAnim(toPage);
                     isAnimationInProgress = false;
+                    onAnimEnd();
+                    onAnimStart();
                 });
 
                 function clearAnim(page) {

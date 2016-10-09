@@ -9,6 +9,8 @@ App.run(['$rootScope', '$timeout', function ($rootScope, $timeout) {
         
         $timeout(function() {
             $rootScope.$broadcast('animEnd');
+            $rootScope.$broadcast('ngRepeatFinished');
+            $rootScope.$broadcast('$viewContentLoaded');
         }, 700);
     });
 }]);

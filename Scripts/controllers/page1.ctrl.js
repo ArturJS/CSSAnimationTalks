@@ -10,7 +10,7 @@ App.controller('Page1Ctrl', ['$scope', function ($scope) {
         items: items
     });
     
-    for (i = 1; i < 15000; i++) {
+    for (i = 1; i < 100; i++) {
         items.push(i);
     }
 }]);

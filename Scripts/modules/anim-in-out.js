@@ -19,32 +19,40 @@
                 doneCallbacks = [];
 
             function initDefers() {
-                defer1 = $q.defer();
+                //defer1 = $q.defer();
                 defer2 = $q.defer();
 
-                $q.when(defer1.promise, defer2.promise)
+                $q.when(/*defer1.promise,*/ defer2.promise)
                     .then(function () {
 
-                        doneCallbacks.forEach(function (callback) {
-                            callback();
-                        });
-                        doneCallbacks.splice(0, doneCallbacks.length);
+                        $timeout(function () {
+                            doneCallbacks.forEach(function (callback) {
+                                callback();
+                            });
+                            doneCallbacks.splice(0, doneCallbacks.length);
 
-                        initDefers();
+                            initDefers();
+                        }, 0);
+
                     });
             }
 
             initDefers();
 
-            $rootScope.$on('$viewContentLoading', function () {
+           /* $timeout(function () {
+                //defer1.resolve();
+                defer2.resolve();
+            }, 600);*/
+
+            $rootScope.$on('$stateChangeStart', function () {
                 date = new Date();
             });
 
-            $rootScope.$on('$viewContentLoaded', function () {
-                console.log('loaded after ' + ((new Date()) - date));
-                defer1.resolve();
-            });
 
+            /*$rootScope.$on('$viewContentLoaded', function () {
+             console.log('loaded after ' + ((new Date()) - date));
+             defer1.resolve();
+             });*/
             $rootScope.$on('ngRepeatFinished', function () {
                 console.log('ngRepeatFinished after ' + ((new Date()) - date));
                 defer2.resolve();
@@ -52,7 +60,7 @@
 
 
             return {
-                enter: function (element, done) {
+                enter: function (element, done1) {
                     var $element = angular.element(element),
                         animSync = eval($element.attr('data-anim-sync')),
                         sync = animSync || false,
@@ -60,7 +68,15 @@
                         inSpeed = getNumber($element.attr('data-anim-in-speed'), speed),
                         outSpeed = getNumber($element.attr('data-anim-out-speed'), speed);
 
-                    $rootScope.$broadcast('animStart', element, outSpeed);
+
+                    function done() {
+                        done1();
+                        $rootScope.$broadcast('animEnd');
+                    }
+
+                    doneCallbacks.push(function () {
+                        $rootScope.$broadcast('animStart', element, outSpeed);
+                    });
 
                     try {
                         var observer = new MutationObserver(function (mutations) {
@@ -102,12 +118,19 @@
                         }
                     };
                 },
-                leave: function (element, done) {
+                leave: function (element, done1) {
                     var $element = angular.element(element),
                         speed = getNumber($element.attr('data-anim-speed'), 1000),
                         outSpeed = getNumber($element.attr('data-anim-out-speed'), speed);
 
-                    $rootScope.$broadcast('animStart', element, outSpeed);
+                    function done() {
+                            done1();
+                        $rootScope.$broadcast('animEnd');
+                    }
+
+                    /*doneCallbacks.push(function () {
+                        $rootScope.$broadcast('animStart', element, outSpeed);
+                    });*/
 
                     try {
                         var observer = new MutationObserver(function (mutations) {
